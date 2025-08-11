@@ -1,4 +1,4 @@
-data "utilities_preserve_sensitivity" "example" {
+data "misc_echo" "example" {
   input = {
     key = "key"
     val = sensitive("secret")

@@ -13,38 +13,38 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-var _ datasource.DataSource = &PreserveSensitivityDataSource{}
+var _ datasource.DataSource = &EchoDataSource{}
 
-func NewPreserveSensitivityDataSource() datasource.DataSource {
-	return &PreserveSensitivityDataSource{}
+func NewEchoDataSource() datasource.DataSource {
+	return &EchoDataSource{}
 }
 
-type PreserveSensitivityDataSource struct {
+type EchoDataSource struct {
 	client *http.Client
 }
 
-type PreserveSensitivityDataSourceModel struct {
+type EchoDataSourceModel struct {
 	Input types.Dynamic `tfsdk:"input"`
 }
 
-func (ps *PreserveSensitivityDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_preserve_sensitivity"
+func (e *EchoDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_echo"
 }
 
-func (ps *PreserveSensitivityDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (e *EchoDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Process arbitrary data while preserving sensitive markings",
+		MarkdownDescription: "Echo arbitrary data while preserving sensitive markings",
 
 		Attributes: map[string]schema.Attribute{
 			"input": schema.DynamicAttribute{
-				MarkdownDescription: "Arbitrary input data that will be preserved.",
+				MarkdownDescription: "Arbitrary input data that will be echoed back.",
 				Required:            true,
 			},
 		},
 	}
 }
 
-func (ps *PreserveSensitivityDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (e *EchoDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
 		return
@@ -58,12 +58,12 @@ func (ps *PreserveSensitivityDataSource) Configure(ctx context.Context, req data
 		return
 	}
 
-	ps.client = client
+	e.client = client
 }
 
 // Read simply echos the input back as output, preserving sensitivity.
-func (ps *PreserveSensitivityDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data PreserveSensitivityDataSourceModel
+func (e *EchoDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data EchoDataSourceModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {

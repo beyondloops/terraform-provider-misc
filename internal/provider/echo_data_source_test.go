@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestAccPreserveSensitivity(t *testing.T) {
+func TestAccEcho(t *testing.T) {
 	// resource.Test(t, resource.TestCase{
 	// 	PreCheck:                 func() { testAccPreCheck(t) },
 	// 	ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -17,9 +17,9 @@ func TestAccPreserveSensitivity(t *testing.T) {
 	// 			Config: testAccExampleDataSourceConfig,
 	// 			ConfigStateChecks: []statecheck.StateCheck{
 	// 				statecheck.ExpectKnownValue(
-	// 					"data.scaffolding_example.test",
-	// 					tfjsonpath.New("id"),
-	// 					knownvalue.StringExact("example-id"),
+	// 					"data.misc_echo.test",
+	// 					tfjsonpath.New("input"),
+	// 					knownvalue.StringExact("example-input"),
 	// 				),
 	// 			},
 	// 		},
