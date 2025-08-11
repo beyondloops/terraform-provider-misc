@@ -1,3 +1,3 @@
-provider "sensitive" {
+provider "utilities" {
   # example configuration here
 }
