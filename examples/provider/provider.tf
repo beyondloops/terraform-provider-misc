@@ -1,3 +1,3 @@
-provider "scaffolding" {
+provider "sensitive" {
   # example configuration here
 }
