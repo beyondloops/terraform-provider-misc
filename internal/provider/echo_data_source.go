@@ -24,7 +24,8 @@ type EchoDataSource struct {
 }
 
 type EchoDataSourceModel struct {
-	Input types.Dynamic `tfsdk:"input"`
+	Input  types.Dynamic `tfsdk:"input"`
+	Output types.Dynamic `tfsdk:"output"`
 }
 
 func (e *EchoDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
@@ -37,8 +38,12 @@ func (e *EchoDataSource) Schema(ctx context.Context, req datasource.SchemaReques
 
 		Attributes: map[string]schema.Attribute{
 			"input": schema.DynamicAttribute{
-				MarkdownDescription: "Arbitrary input data that will be echoed back.",
+				MarkdownDescription: "Arbitrary input data that will be echoed back through output.",
 				Required:            true,
+			},
+			"output": schema.DynamicAttribute{
+				MarkdownDescription: "Echoed input data.",
+				Computed:            true,
 			},
 		},
 	}
@@ -69,6 +74,8 @@ func (e *EchoDataSource) Read(ctx context.Context, req datasource.ReadRequest, r
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
+	data.Output = data.Input
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
