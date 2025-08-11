@@ -52,7 +52,9 @@ func (m *MiscProvider) Configure(ctx context.Context, req provider.ConfigureRequ
 }
 
 func (m *MiscProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return []func() resource.Resource{}
+	return []func() resource.Resource{
+		NewEchoResource,
+	}
 }
 
 func (m *MiscProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
