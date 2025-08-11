@@ -20,7 +20,7 @@ terraform {
   }
 }
 
-data "misc_echo" "example" {
+resource "misc_echo" "example" {
   input = {
     public_key  = "visible_value"
     private_key = sensitive("secret_value")
