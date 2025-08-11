@@ -32,5 +32,5 @@ data "misc_echo" "example" {
 }
 
 output "processed_data" {
-  value = data.misc_echo.example.input
+  value = data.misc_echo.example.output
 }
