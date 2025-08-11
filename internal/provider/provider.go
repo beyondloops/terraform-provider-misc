@@ -13,33 +13,33 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 )
 
-// Ensure ScaffoldingProvider satisfies various provider interfaces.
-var _ provider.Provider = &SensitiveProvider{}
+// Ensure UtilitiesProvider satisfies various provider interfaces.
+var _ provider.Provider = &UtilitiesProvider{}
 
-// ScaffoldingProvider defines the provider implementation.
-type SensitiveProvider struct {
+// UtilitiesProvider defines the provider implementation.
+type UtilitiesProvider struct {
 	// version is set to the provider version on release, "dev" when the
 	// provider is built and ran locally, and "test" when running acceptance
 	// testing.
 	version string
 }
 
-// SensitiveProviderModel describes the provider data model.
-type SensitiveProviderModel struct{}
+// UtilitiesProviderModel describes the provider data model.
+type UtilitiesProviderModel struct{}
 
-func (sp *SensitiveProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
-	resp.TypeName = "sensitive"
-	resp.Version = sp.version
+func (up *UtilitiesProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
+	resp.TypeName = "utilities"
+	resp.Version = up.version
 }
 
-func (sp *SensitiveProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
+func (up *UtilitiesProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{},
 	}
 }
 
-func (sp *SensitiveProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
-	var data SensitiveProviderModel
+func (up *UtilitiesProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
+	var data UtilitiesProviderModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -51,19 +51,19 @@ func (sp *SensitiveProvider) Configure(ctx context.Context, req provider.Configu
 	resp.DataSourceData = client
 }
 
-func (sp *SensitiveProvider) Resources(ctx context.Context) []func() resource.Resource {
+func (up *UtilitiesProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{}
 }
 
-func (sp *SensitiveProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
+func (up *UtilitiesProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
-		NewSensitiveDataSource,
+		NewPreserveSensitivityDataSource,
 	}
 }
 
 func New(version string) func() provider.Provider {
 	return func() provider.Provider {
-		return &SensitiveProvider{
+		return &UtilitiesProvider{
 			version: version,
 		}
 	}
