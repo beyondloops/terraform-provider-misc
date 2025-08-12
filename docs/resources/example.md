@@ -25,7 +25,7 @@ resource "misc_echo" "example" {
 }
 
 output "processed_data" {
-  value = misc_echo.example.output
+  value = misc_echo.example.input
   # Only non-sensitive fields will be visible in output
 }
 ```

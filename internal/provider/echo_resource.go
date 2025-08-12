@@ -6,6 +6,7 @@ package provider
 import (
 	"context"
 
+	"github.com/google/uuid"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -22,7 +23,6 @@ type EchoResource struct{}
 type EchoResourceModel struct {
 	ID    types.String  `tfsdk:"id"`
 	Input types.Dynamic `tfsdk:"input"`
-	// Output types.Dynamic `tfsdk:"output"`
 }
 
 func (r *EchoResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -34,19 +34,10 @@ func (r *EchoResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 		MarkdownDescription: "Echo resource that maintains input data in managed state",
 
 		Attributes: map[string]schema.Attribute{
-			"id": schema.StringAttribute{
-				Computed:            true,
-				MarkdownDescription: "Resource identifier",
-			},
 			"input": schema.DynamicAttribute{
 				Required:            true,
 				MarkdownDescription: "Input data to echo",
 			},
-			// "output": schema.DynamicAttribute{
-			// 	Computed:            true,
-			// 	Sensitive:           true,
-			// 	MarkdownDescription: "Echoed output data",
-			// },
 		},
 	}
 }
@@ -57,6 +48,8 @@ func (r *EchoResource) Create(ctx context.Context, req resource.CreateRequest, r
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
+	data.ID = types.StringValue(uuid.New().String())
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
@@ -79,6 +72,14 @@ func (r *EchoResource) Update(ctx context.Context, req resource.UpdateRequest, r
 	if resp.Diagnostics.HasError() {
 		return
 	}
+
+	var state EchoResourceModel
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	data.ID = state.ID
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
