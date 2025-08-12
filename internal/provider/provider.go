@@ -58,9 +58,7 @@ func (m *MiscProvider) Resources(ctx context.Context) []func() resource.Resource
 }
 
 func (m *MiscProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
-	return []func() datasource.DataSource{
-		NewEchoDataSource,
-	}
+	return []func() datasource.DataSource{}
 }
 
 func New(version string) func() provider.Provider {
