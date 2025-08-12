@@ -44,6 +44,7 @@ func (r *EchoResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 			},
 			"output": schema.DynamicAttribute{
 				Computed:            true,
+				Sensitive:           true,
 				MarkdownDescription: "Echoed output data",
 			},
 		},
