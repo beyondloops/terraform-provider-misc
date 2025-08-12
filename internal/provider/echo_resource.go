@@ -34,6 +34,10 @@ func (r *EchoResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 		MarkdownDescription: "Echo resource that maintains input data in managed state",
 
 		Attributes: map[string]schema.Attribute{
+			"id": schema.StringAttribute{
+				Computed:            true,
+				MarkdownDescription: "Unique identifier for the resource",
+			},
 			"input": schema.DynamicAttribute{
 				Required:            true,
 				MarkdownDescription: "Input data to echo",
