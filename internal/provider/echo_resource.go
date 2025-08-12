@@ -20,9 +20,9 @@ func NewEchoResource() resource.Resource {
 type EchoResource struct{}
 
 type EchoResourceModel struct {
-	ID     types.String  `tfsdk:"id"`
-	Input  types.Dynamic `tfsdk:"input"`
-	Output types.Dynamic `tfsdk:"output"`
+	ID    types.String  `tfsdk:"id"`
+	Input types.Dynamic `tfsdk:"input"`
+	// Output types.Dynamic `tfsdk:"output"`
 }
 
 func (r *EchoResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -42,11 +42,11 @@ func (r *EchoResource) Schema(ctx context.Context, req resource.SchemaRequest, r
 				Required:            true,
 				MarkdownDescription: "Input data to echo",
 			},
-			"output": schema.DynamicAttribute{
-				Computed:            true,
-				Sensitive:           true,
-				MarkdownDescription: "Echoed output data",
-			},
+			// "output": schema.DynamicAttribute{
+			// 	Computed:            true,
+			// 	Sensitive:           true,
+			// 	MarkdownDescription: "Echoed output data",
+			// },
 		},
 	}
 }
@@ -58,7 +58,6 @@ func (r *EchoResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
-	data.Output = data.Input
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
@@ -81,7 +80,6 @@ func (r *EchoResource) Update(ctx context.Context, req resource.UpdateRequest, r
 		return
 	}
 
-	data.Output = data.Input
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
